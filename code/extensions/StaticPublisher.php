@@ -147,9 +147,14 @@ abstract class StaticPublisher extends DataExtension {
 			
 			$urls[$i] = $url;
 		}
-
+		
+		// Only unique pages
 		$urls = array_unique($urls);
-
+		
+		// Only publish legal pages (defined in Page class)
+		$legalPages = singleton('Page')->allPagesToCache();
+		$urls = array_intersect($urls, $legalPages);
+		
 		$this->publishPages($urls);
 	}
 	
